@@ -12,26 +12,26 @@ class PortraitLayout extends StatelessWidget {
   final List<String> chipList = ['Calculator', 'Unit', 'Currency'];
 
   final List<ButtonModel> buttons = [
-    ButtonModel(text: 'AC', buttonType: ButtonType.clear),
-    ButtonModel(text: '←', buttonType: ButtonType.clear),
-    ButtonModel(text: 'xⁿ', buttonType: ButtonType.operator),
-    ButtonModel(text: '%', buttonType: ButtonType.operator),
-    ButtonModel(text: '7', buttonType: ButtonType.number),
-    ButtonModel(text: '8', buttonType: ButtonType.number),
-    ButtonModel(text: '9', buttonType: ButtonType.number),
-    ButtonModel(text: '+', buttonType: ButtonType.operator),
-    ButtonModel(text: '4', buttonType: ButtonType.number),
-    ButtonModel(text: '5', buttonType: ButtonType.number),
-    ButtonModel(text: '6', buttonType: ButtonType.number),
-    ButtonModel(text: '-', buttonType: ButtonType.operator),
-    ButtonModel(text: '1', buttonType: ButtonType.number),
-    ButtonModel(text: '2', buttonType: ButtonType.number),
-    ButtonModel(text: '3', buttonType: ButtonType.number),
-    ButtonModel(text: '×', buttonType: ButtonType.operator),
-    ButtonModel(text: '.', buttonType: ButtonType.number),
-    ButtonModel(text: '0', buttonType: ButtonType.number),
-    ButtonModel(text: '=', buttonType: ButtonType.operator),
-    ButtonModel(text: '/', buttonType: ButtonType.operator),
+    ButtonModel(text: MyButtons.clear, buttonType: ButtonType.clear),
+    ButtonModel(text: MyButtons.back, buttonType: ButtonType.clear),
+    ButtonModel(text: MyButtons.power, buttonType: ButtonType.operator),
+    ButtonModel(text: MyButtons.root, buttonType: ButtonType.operator),
+    ButtonModel(text: MyButtons.seven, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.eight, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.nine, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.add, buttonType: ButtonType.operator),
+    ButtonModel(text: MyButtons.four, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.five, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.six, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.subtract, buttonType: ButtonType.operator),
+    ButtonModel(text: MyButtons.one, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.two, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.three, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.multiply, buttonType: ButtonType.operator),
+    ButtonModel(text: MyButtons.dot, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.zero, buttonType: ButtonType.number),
+    ButtonModel(text: MyButtons.equal, buttonType: ButtonType.operator),
+    ButtonModel(text: MyButtons.divide, buttonType: ButtonType.operator),
   ];
 
   @override
@@ -43,33 +43,19 @@ class PortraitLayout extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.menu_rounded,
-                    color: CustomColors.numberColor,
-                  ),
-                  onPressed: () {},
-                ),
-                Expanded(
-                  flex: 1,
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: chipList.length,
-                    itemBuilder: (context, index) {
-                      return GetX<ScreenController>(builder: (controller) {
-                        return MyChip(
-                          title: chipList[index],
-                          isSelected: controller.selectedIndex.value == index,
-                          onTap: () => controller.changeScreen(index),
-                        );
-                      });
-                    },
-                  ),
-                ),
-              ],
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: chipList.length,
+              itemBuilder: (context, index) {
+                return GetX<ScreenController>(builder: (controller) {
+                  return MyChip(
+                    title: chipList[index],
+                    isSelected: controller.selectedIndex.value == index,
+                    onTap: () => controller.changeScreen(index),
+                  );
+                });
+              },
             ),
           ),
           Expanded(
@@ -83,19 +69,23 @@ class PortraitLayout extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      controller.history.value + ' ' + controller.symbol.value,
+                    SelectableText(
+                      controller.history.value,
                       style: TextStyle(
                         fontSize: controller.isCompleted.value ? 28.0 : 48.0,
                         color: CustomColors.numberColor,
                       ),
+                      textAlign: TextAlign.right,
                     ),
-                    Text(
-                      controller.expression.value,
+                    SelectableText(
+                      controller.symbol.value +
+                          ' ' +
+                          controller.expression.value,
                       style: TextStyle(
                         fontSize: controller.isCompleted.value ? 48.0 : 28.0,
                         color: CustomColors.numberColor,
                       ),
+                      textAlign: TextAlign.right,
                     ),
                   ],
                 );
@@ -134,7 +124,7 @@ class PortraitLayout extends StatelessWidget {
                 ),
                 itemCount: buttons.length,
                 itemBuilder: (context, index) {
-                  return MyButton(
+                  return BuildButton(
                     buttonModel: buttons[index],
                     index: index,
                   );

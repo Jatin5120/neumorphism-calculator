@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'dart:math';
 
+import 'package:neumorphism_calculator/constants/constants.dart';
+
 class CalculatorController extends GetxController {
   RxString expression = "0".obs;
   RxString history = "0".obs;
@@ -23,6 +25,8 @@ class CalculatorController extends GetxController {
 
   String get symbolValue => symbol.value;
 
+  bool get isCompletedValue => isCompleted.value;
+
   set changeCompleted(bool status) => isCompleted.value = status;
 
   set setExpression(String value) => expression.value = value;
@@ -37,33 +41,37 @@ class CalculatorController extends GetxController {
 
   calculate(String button) {
     switch (symbolValue) {
-      case '+':
+      case MyButtons.add:
         secondNumber += firstNumber;
         break;
-      case '-':
+      case MyButtons.subtract:
         secondNumber -= firstNumber;
         break;
-      case '×':
+      case MyButtons.multiply:
         secondNumber *= firstNumber;
         break;
-      case '/':
+      case MyButtons.divide:
         secondNumber /= firstNumber;
         break;
-      case '%':
-        secondNumber %= firstNumber;
+      case MyButtons.power:
+      case '^':
+        secondNumber = pow(secondNumber, firstNumber).toDouble();
         break;
-      case 'xⁿ':
-        secondNumber = pow(firstNumber, secondNumber).toDouble();
+      case MyButtons.root:
+        secondNumber = pow(secondNumber, 1 / firstNumber).toDouble();
         break;
       case '':
         secondNumber = firstNumber;
         break;
       default:
     }
-    setHistory = secondNumber.toString();
-    if (button == 'xⁿ')
+    if (secondNumber.toString().split('.')[1] == '0')
+      setHistory = secondNumber.toInt().toString();
+    else
+      setHistory = secondNumber.toString();
+    if (button == MyButtons.power)
       setSymbol = '^';
-    else if (button == '=')
+    else if (button == MyButtons.equal)
       setSymbol = '';
     else
       setSymbol = button;

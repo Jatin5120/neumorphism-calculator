@@ -4,8 +4,8 @@ import '../models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MyButton extends StatelessWidget {
-  MyButton({
+class BuildButton extends StatelessWidget {
+  BuildButton({
     Key? key,
     required this.buttonModel,
     required this.index,
@@ -25,54 +25,54 @@ class MyButton extends StatelessWidget {
     switch (buttonModel.buttonType) {
       case ButtonType.number:
         calController.changeCompleted = true;
-        if (isNumberZero & !isDotPressed) {
-          calController.setExpression = button;
-        } else if (isDotPressed & containsDot) {
-          /// No change
+        if (calController.expressionLength < 13) {
+          if (isNumberZero & !isDotPressed) {
+            calController.setExpression = button;
+          } else if (isDotPressed & containsDot) {
+            /// No change
+          } else {
+            /// Inserting numbers to the expression
+            calController.expression.value += button;
+          }
         } else {
-          /// Inserting numbers to the expression
-          calController.expression.value += button;
+          Get.snackbar(
+            'Limit',
+            'Cannot enter more than 13 digits at a time',
+            backgroundColor: CustomColors.bg.withOpacity(0.5),
+            colorText: CustomColors.numberColor,
+            icon: Icon(Icons.clear_rounded, color: CustomColors.numberColor),
+          );
         }
         break;
       case ButtonType.operator:
         // calController.setHistory = calController.expressionValue;
-        if (button == '=') {
-          calController.calculate(button);
-          if (calController.symbolValue != '') {
-            calController.setExpression = calController.historyValue;
-            calController.setHistory = '0';
-          }
-
-          calController.changeCompleted = true;
-          calController.setSymbol = '';
-          //   calController.setHistory = '0';
-        } else {
-          calController.firstNumber = calController.number;
-          calController.calculate(button);
+        final bool isHistoryZero = calController.historyValue == '0';
+        if (!isHistoryZero && !calController.isCompletedValue)
+          calController.setExpression = calController.secondNumber.toString();
+        calController.firstNumber = calController.number;
+        calController.calculate(button);
+        if (button == MyButtons.equal) {
           calController.setExpression = '0';
+
+          calController.changeCompleted = false;
+        } else {
+          calController.setExpression = '0';
+          calController.changeCompleted = true;
         }
         break;
       case ButtonType.clear:
-        if (button == 'AC') {
-          calController.changeCompleted = false;
+        if (button == MyButtons.clear) {
+          calController.changeCompleted = true;
           calController.setSymbol = '';
           calController.setExpression = '0';
           calController.setHistory = '0';
           calController.secondNumber = 0;
-        } else if (button == '←') {
-          if (calController.isCompleted.value) {
-            if (calController.expressionLength == 1)
-              calController.setExpression = '0';
-            else
-              calController.setExpression = calController.expression
-                  .substring(0, calController.expressionLength - 1);
-          } else {
-            if (calController.historyLength == 1)
-              calController.setHistory = '0';
-            else
-              calController.setHistory = calController.history
-                  .substring(0, calController.historyLength - 1);
-          }
+        } else if (button == MyButtons.back) {
+          if (calController.expressionLength == 1)
+            calController.setExpression = '0';
+          else
+            calController.setExpression = calController.expression
+                .substring(0, calController.expressionLength - 1);
         }
         break;
       default:
