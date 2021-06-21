@@ -7,16 +7,16 @@ import 'package:get/get.dart';
 class BuildButton extends StatelessWidget {
   BuildButton({
     Key? key,
-    required this.buttonModel,
+    required this.buttonModal,
     required this.index,
   }) : super(key: key);
 
-  final ButtonModel buttonModel;
+  final ButtonModal buttonModal;
   final int index;
 
   final CalculatorController calController = Get.find();
 
-  void buttonClick(ButtonModel buttonModel) {
+  void buttonClick(ButtonModal buttonModel) {
     String button = buttonModel.text;
     final bool isNumberZero = calController.expression.value == '0';
     final bool isDotPressed = button == '.';
@@ -41,39 +41,32 @@ class BuildButton extends StatelessWidget {
             backgroundColor: CustomColors.bg.withOpacity(0.5),
             colorText: CustomColors.numberColor,
             icon: Icon(Icons.clear_rounded, color: CustomColors.numberColor),
+            isDismissible: true,
+            animationDuration: Duration(milliseconds: 300),
+            snackStyle: SnackStyle.GROUNDED,
           );
         }
         break;
       case ButtonType.operator:
-        // calController.setHistory = calController.expressionValue;
         final bool isHistoryZero = calController.historyValue == '0';
         if (!isHistoryZero && !calController.isCompletedValue)
           calController.setExpression = calController.secondNumber.toString();
         calController.firstNumber = calController.number;
         calController.calculate(button);
+        calController.setExpression = '0';
         if (button == MyButtons.equal) {
-          calController.setExpression = '0';
-
           calController.changeCompleted = false;
         } else {
-          calController.setExpression = '0';
           calController.changeCompleted = true;
         }
         break;
       case ButtonType.clear:
-        if (button == MyButtons.clear) {
-          calController.changeCompleted = true;
-          calController.setSymbol = '';
-          calController.setExpression = '0';
-          calController.setHistory = '0';
-          calController.secondNumber = 0;
-        } else if (button == MyButtons.back) {
-          if (calController.expressionLength == 1)
-            calController.setExpression = '0';
-          else
-            calController.setExpression = calController.expression
-                .substring(0, calController.expressionLength - 1);
-        }
+        calController.changeCompleted = true;
+        calController.setSymbol = '';
+        calController.setExpression = '0';
+        calController.setHistory = '0';
+        calController.secondNumber = 0;
+
         break;
       default:
     }
@@ -87,7 +80,7 @@ class BuildButton extends StatelessWidget {
           controller.changePressed(index, true);
         },
         onPointerUp: (onPointerUp) {
-          buttonClick(buttonModel);
+          buttonClick(buttonModal);
           controller.changePressed(index, false);
         },
         child: AnimatedContainer(
@@ -114,14 +107,16 @@ class BuildButton extends StatelessWidget {
                 : null,
           ),
           child: Text(
-            buttonModel.text,
+            buttonModal.text,
             style: TextStyle(
-              color: buttonModel.buttonType == ButtonType.number
+              color: buttonModal.buttonType == ButtonType.number
                   ? CustomColors.numberColor
-                  : buttonModel.buttonType == ButtonType.operator
-                      ? CustomColors.operatorColor
+                  : buttonModal.buttonType == ButtonType.operator
+                      ? buttonModal.text == MyButtons.equal
+                          ? CustomColors.equalColor
+                          : CustomColors.operatorColor
                       : CustomColors.clearColor,
-              fontSize: 28,
+              fontSize: buttonModal.text == MyButtons.equal ? 36 : 28,
             ),
           ),
         ),

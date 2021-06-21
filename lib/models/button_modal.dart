@@ -1,10 +1,10 @@
 import '../constants/constants.dart';
 
-class ButtonModel {
-  String text;
-  ButtonType buttonType;
+class ButtonModal {
+  final String text;
+  final ButtonType buttonType;
 
-  ButtonModel({
+  const ButtonModal({
     required this.text,
     required this.buttonType,
   });

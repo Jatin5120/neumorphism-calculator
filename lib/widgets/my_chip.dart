@@ -10,11 +10,10 @@ class MyChip extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      splashColor: Colors.transparent,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
         decoration: BoxDecoration(
           color: CustomColors.bg,

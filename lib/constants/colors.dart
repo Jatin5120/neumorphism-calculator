@@ -8,4 +8,5 @@ class CustomColors {
   static const Color numberColor = Color(0xFFDADADA);
   static const Color operatorColor = Color(0xFF47C5EB);
   static const Color clearColor = Color(0xFF284771);
+  static const Color equalColor = Color(0xFFFEC539);
 }

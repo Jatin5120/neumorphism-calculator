@@ -13,7 +13,7 @@ class MyButtons {
   static const String dot = '.';
 
   static const String clear = 'AC';
-  static const String back = '←';
+  static const String percent = '%';
 
   static const String equal = '=';
 
