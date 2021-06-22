@@ -9,14 +9,17 @@ class BuildButton extends StatelessWidget {
     Key? key,
     required this.buttonModal,
     required this.index,
+    required this.isUnit,
   }) : super(key: key);
 
   final ButtonModal buttonModal;
   final int index;
+  final bool isUnit;
 
   final CalculatorController calController = Get.find();
+  final UnitController unitController = Get.find();
 
-  void buttonClick(ButtonModal buttonModel) {
+  void calculatorButtonClick(ButtonModal buttonModel) {
     String button = buttonModel.text;
     final bool isNumberZero = calController.expression.value == '0';
     final bool isDotPressed = button == '.';
@@ -72,6 +75,8 @@ class BuildButton extends StatelessWidget {
     }
   }
 
+  unitButtonClick(ButtonModal buttonModal) {}
+
   @override
   Widget build(BuildContext context) {
     return GetX<CalculatorController>(builder: (controller) {
@@ -80,7 +85,10 @@ class BuildButton extends StatelessWidget {
           controller.changePressed(index, true);
         },
         onPointerUp: (onPointerUp) {
-          buttonClick(buttonModal);
+          if (isUnit)
+            unitButtonClick(buttonModal);
+          else
+            calculatorButtonClick(buttonModal);
           controller.changePressed(index, false);
         },
         child: AnimatedContainer(

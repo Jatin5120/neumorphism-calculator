@@ -3,6 +3,39 @@ import 'constants.dart';
 
 final List<String> chipList = ['Calculator', 'Unit'];
 
+final List<String> unitNames = [
+  'Length',
+  'Area',
+  'Volume',
+  'Temperature',
+  'Mass',
+  'Data',
+  'Speed',
+  'Time',
+];
+
+final List<List<UnitModal>> unitList = [
+  MyUnits.length,
+  MyUnits.area,
+  MyUnits.volume,
+  MyUnits.temperature,
+  MyUnits.mass,
+  MyUnits.data,
+  MyUnits.speed,
+  MyUnits.time,
+];
+
+final List<Map<String, Map<String, double>>> conversionList = [
+  UnitConversion.length,
+  UnitConversion.area,
+  UnitConversion.volume,
+  UnitConversion.temperature,
+  UnitConversion.mass,
+  UnitConversion.data,
+  UnitConversion.speed,
+  UnitConversion.time,
+];
+
 final List<ButtonModal> calculatorButtons = [
   ButtonModal(text: MyButtons.clear, buttonType: ButtonType.clear),
   ButtonModal(text: MyButtons.percent, buttonType: ButtonType.operator),

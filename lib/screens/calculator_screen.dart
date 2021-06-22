@@ -76,7 +76,7 @@ class CalculatorScreen extends StatelessWidget {
         ),
         Expanded(
           flex: 10,
-          child: ButtonGrid(buttons: calculatorButtons),
+          child: ButtonGrid(buttons: calculatorButtons, crossAxisCount: 4),
         ),
       ],
     );

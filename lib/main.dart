@@ -8,6 +8,7 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
   Get.put(CalculatorController());
   Get.put(ScreenController());
+  Get.put(UnitController());
   runApp(MyApp());
 }
 

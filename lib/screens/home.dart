@@ -24,10 +24,11 @@ class _HomePageState extends State<HomePage> {
         return false;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: CustomColors.bg,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

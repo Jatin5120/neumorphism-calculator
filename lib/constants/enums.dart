@@ -4,13 +4,13 @@ enum ButtonType {
   clear,
 }
 
-enum UnitType {
-  length,
-  area,
-  volume,
-  temperature,
-  mass,
-  data,
-  speed,
-  time,
-}
+// enum UnitType {
+//   length,
+//   area,
+//   volume,
+//   temperature,
+//   mass,
+//   data,
+//   speed,
+//   time,
+// }

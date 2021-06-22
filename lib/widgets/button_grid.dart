@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import '../widgets/widgets.dart';
 import '../models/models.dart';
+import '../widgets/widgets.dart';
 
 class ButtonGrid extends StatelessWidget {
-  const ButtonGrid({Key? key, required this.buttons}) : super(key: key);
+  const ButtonGrid({
+    Key? key,
+    required this.buttons,
+    required this.crossAxisCount,
+    this.isUnit = false,
+  }) : super(key: key);
 
   final List<ButtonModal> buttons;
+  final int crossAxisCount;
+  final bool isUnit;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +21,14 @@ class ButtonGrid extends StatelessWidget {
       child: GridView.builder(
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
+          crossAxisCount: crossAxisCount,
         ),
         itemCount: buttons.length,
         itemBuilder: (context, index) {
           return BuildButton(
             buttonModal: buttons[index],
             index: index,
+            isUnit: isUnit,
           );
         },
       ),
