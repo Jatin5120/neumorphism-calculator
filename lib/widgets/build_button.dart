@@ -19,13 +19,26 @@ class BuildButton extends StatelessWidget {
   final CalculatorController calController = Get.find();
   final UnitController unitController = Get.find();
 
-  void calculatorButtonClick(ButtonModal buttonModel) {
-    String button = buttonModel.text;
+  showSnackBar() {
+    Get.snackbar(
+      'Limit',
+      'Cannot enter more than 13 digits at a time',
+      backgroundColor: CustomColors.bg.withOpacity(0.5),
+      colorText: CustomColors.numberColor,
+      icon: Icon(Icons.clear_rounded, color: CustomColors.numberColor),
+      isDismissible: true,
+      animationDuration: Duration(milliseconds: 300),
+      snackStyle: SnackStyle.GROUNDED,
+    );
+  }
+
+  void calculatorButtonClick(ButtonModal buttonModal) {
+    String button = buttonModal.text;
     final bool isNumberZero = calController.expression.value == '0';
     final bool isDotPressed = button == '.';
     final bool containsDot = calController.expression.value.contains('.');
 
-    switch (buttonModel.buttonType) {
+    switch (buttonModal.buttonType) {
       case ButtonType.number:
         calController.changeCompleted = true;
         if (calController.expressionLength < 13) {
@@ -38,16 +51,7 @@ class BuildButton extends StatelessWidget {
             calController.expression.value += button;
           }
         } else {
-          Get.snackbar(
-            'Limit',
-            'Cannot enter more than 13 digits at a time',
-            backgroundColor: CustomColors.bg.withOpacity(0.5),
-            colorText: CustomColors.numberColor,
-            icon: Icon(Icons.clear_rounded, color: CustomColors.numberColor),
-            isDismissible: true,
-            animationDuration: Duration(milliseconds: 300),
-            snackStyle: SnackStyle.GROUNDED,
-          );
+          showSnackBar();
         }
         break;
       case ButtonType.operator:
@@ -75,7 +79,34 @@ class BuildButton extends StatelessWidget {
     }
   }
 
-  unitButtonClick(ButtonModal buttonModal) {}
+  unitButtonClick(ButtonModal buttonModal) {
+    String button = buttonModal.text;
+    final bool isNumberZero = unitController.firstNumber.value == '0';
+    final bool isDotPressed = button == '.';
+    final bool containsDot = unitController.firstNumber.value.contains('.');
+
+    switch (buttonModal.buttonType) {
+      case ButtonType.number:
+        if (unitController.numberLength < 13) {
+          if (isNumberZero & !isDotPressed) {
+            unitController.setFirstNumber = button;
+          } else if (isDotPressed & containsDot) {
+            /// No change
+          } else {
+            /// Inserting numbers to the expression
+            unitController.firstNumber.value += button;
+          }
+        } else {
+          showSnackBar();
+        }
+        break;
+      case ButtonType.clear:
+        unitController.setFirstNumber = '1';
+        break;
+      default:
+    }
+    unitController.convertValue();
+  }
 
   @override
   Widget build(BuildContext context) {

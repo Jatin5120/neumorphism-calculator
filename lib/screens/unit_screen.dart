@@ -47,9 +47,8 @@ class UnitScreen extends StatelessWidget {
                 child: GetX<UnitController>(builder: (controller) {
                   return DropdownButton<UnitModal>(
                     dropdownColor: CustomColors.lightShadow,
-                    value: controller.firstUnit().value,
-                    items: controller
-                        .currentUnitType()
+                    value: controller.firstUnit,
+                    items: controller.currentUnitType
                         .map<DropdownMenuItem<UnitModal>>(
                             (UnitModal unitModal) {
                       return DropdownMenuItem(
@@ -81,7 +80,7 @@ class UnitScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16.0),
             child: GetX<UnitController>(builder: (controller) {
               return Text(
-                '1 ${controller.firstUnit().value.unit}',
+                '${controller.firstText} ${controller.firstUnit.unit}',
                 style: TextStyle(color: Colors.white),
               );
             }),
@@ -97,9 +96,8 @@ class UnitScreen extends StatelessWidget {
                 child: GetX<UnitController>(builder: (controller) {
                   return DropdownButton<UnitModal>(
                     dropdownColor: CustomColors.lightShadow,
-                    value: controller.secondUnit().value,
-                    items: controller
-                        .currentUnitType()
+                    value: controller.secondUnit,
+                    items: controller.currentUnitType
                         .map<DropdownMenuItem<UnitModal>>(
                             (UnitModal unitModal) {
                       return DropdownMenuItem(
@@ -131,34 +129,36 @@ class UnitScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16.0),
             child: GetX<UnitController>(builder: (controller) {
               return Text(
-                '1 ${controller.secondUnit().value.unit}',
+                '${controller.secondText} ${controller.secondUnit.unit}',
                 style: TextStyle(color: Colors.white),
               );
             }),
           ),
         ),
         Expanded(
-          flex: 1,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 42.0, vertical: 14.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(),
-                GestureDetector(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(),
+              GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 48.0,
+                    vertical: 12.0,
+                  ),
                   child: Icon(
                     Icons.backspace_rounded,
                     color: CustomColors.clearColor,
                   ),
-                  onTap: () => {},
                 ),
-              ],
-            ),
+                onTap: () => unitController.backButton(),
+              ),
+            ],
           ),
         ),
         Expanded(
-          flex: 17,
+          flex: 19,
           child:
               ButtonGrid(buttons: unitButtons, crossAxisCount: 3, isUnit: true),
         ),
